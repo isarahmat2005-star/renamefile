@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renamer Pro | Tech Blue Edition</title>
+    <title>Renamer Pro | Blue Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb; /* Biru Profesional */
+            --primary: #2563eb;
             --bg-body: #f0f2f5;
             --card-bg: #ffffff;
             --border: #d1d5db;
@@ -17,7 +17,6 @@
             --log-text: #60a5fa;
         }
 
-        /* Mode Gelap */
         body.dark-mode {
             --bg-body: #0d1117;
             --card-bg: #161b22;
@@ -40,15 +39,19 @@
             transition: all 0.3s ease;
         }
 
+        /* Tampilan Persegi Pas dan Tengah */
         .container {
             background-color: var(--card-bg);
-            width: 100%;
-            max-width: 700px;
+            width: 600px; /* Ukuran tetap untuk kesan persegi */
+            height: 600px; /* Ukuran tetap untuk kesan persegi */
             padding: 30px;
-            border-radius: 12px; /* Melengkung */
+            border-radius: 12px;
             border: 1px solid var(--border);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
         }
 
         .top-nav {
@@ -65,21 +68,27 @@
             letter-spacing: 2px; 
             border-bottom: 2px solid var(--primary); 
             display: inline-block; 
-            padding-bottom: 5px; 
+            padding-bottom: 5px;
+            font-size: 22px;
         }
 
+        /* Tombol Ikon Mode */
         .theme-toggle {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
-            font-family: 'Share Tech', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 14px; color: var(--primary); font-weight: bold; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; color: var(--primary); font-weight: bold; }
 
         .explorer-bar {
             display: flex;
@@ -96,7 +105,7 @@
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            border-radius: 8px; /* Melengkung */
+            border-radius: 8px;
             display: flex;
             align-items: center;
         }
@@ -105,21 +114,18 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 25px;
+            padding: 0 20px;
             cursor: pointer;
             font-family: 'Share Tech', sans-serif;
-            transition: 0.2s;
-            border-radius: 8px; /* Melengkung */
+            border-radius: 8px;
             font-weight: bold;
         }
-
-        .btn-browse:hover { opacity: 0.8; }
 
         .config-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .input-field {
@@ -130,14 +136,14 @@
             color: var(--text);
             font-family: 'Share Tech', sans-serif;
             box-sizing: border-box;
-            border-radius: 8px; /* Melengkung */
+            border-radius: 8px;
         }
 
         .action-bars {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .btn-main { 
@@ -147,7 +153,7 @@
             font-family: 'Share Tech', sans-serif; 
             font-weight: bold; 
             text-transform: uppercase; 
-            border-radius: 8px; /* Melengkung */
+            border-radius: 8px;
         }
         
         .start { background: var(--primary); color: white; }
@@ -155,19 +161,36 @@
         .stop { background: #ef4444; color: white; }
         .btn-main:disabled { opacity: 0.3; cursor: not-allowed; }
 
+        /* Log Section */
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .btn-clear {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-family: 'Share Tech', sans-serif;
+            font-size: 12px;
+            text-decoration: underline;
+        }
+
         .log-panel {
             background: var(--log-bg);
             border: 1px solid var(--border);
-            height: 150px;
+            flex-grow: 1; /* Mengisi sisa ruang kotak */
             padding: 12px;
             overflow-y: auto;
             font-size: 12px;
             color: var(--log-text);
-            border-radius: 8px; /* Melengkung */
+            border-radius: 8px;
         }
 
         .log-entry { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px; }
-        .log-time { color: #8b949e; margin-right: 10px; }
     </style>
 </head>
 <body>
@@ -175,7 +198,9 @@
 <div class="container">
     <div class="top-nav">
         <h1>Renamer Pro</h1>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">MODE GELAP</button>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+            <span id="themeIcon">🌙</span>
+        </button>
     </div>
     
     <div class="input-group">
@@ -197,23 +222,26 @@
     <div class="config-grid">
         <div>
             <label>Jumlah Angka</label>
-            <input type="number" id="numCount" class="input-field" value="5">
+            <input type="number" id="numCount" class="input-field" placeholder="0">
         </div>
         <div>
             <label>Jumlah Huruf</label>
-            <input type="number" id="charCount" class="input-field" value="5">
+            <input type="number" id="charCount" class="input-field" placeholder="0">
         </div>
     </div>
 
     <div class="action-bars">
-        <button id="btnStart" class="btn-main start" onclick="startProcess()">MULAI</button>
+        <button id="btnStart" class="btn-main start" onclick="startProcess()">STAR</button>
         <button id="btnPause" class="btn-main pause" onclick="pauseProcess()" disabled>PAUSE</button>
         <button id="btnStop" class="btn-main stop" onclick="stopProcess()" disabled>STOP</button>
     </div>
 
-    <label>Activity Log</label>
+    <div class="log-header">
+        <label>Activity Log</label>
+        <button class="btn-clear" onclick="clearLogs()">CLEAR LOGS</button>
+    </div>
     <div id="logPanel" class="log-panel">
-        <div class="log-entry">System ready... (Default: Light Mode)</div>
+        <div class="log-entry">System ready...</div>
     </div>
 </div>
 
@@ -226,13 +254,13 @@
 
     function toggleTheme() {
         const body = document.body;
-        const btn = document.getElementById('themeBtn');
+        const icon = document.getElementById('themeIcon');
         body.classList.toggle('dark-mode');
         if(body.classList.contains('dark-mode')) {
-            btn.innerText = "MODE TERANG";
+            icon.innerText = "☀️"; // Ikon Matahari saat gelap
             addLog("Theme changed to Dark Mode");
         } else {
-            btn.innerText = "MODE GELAP";
+            icon.innerText = "🌙"; // Ikon Bulan saat terang
             addLog("Theme changed to Light Mode");
         }
     }
@@ -240,11 +268,14 @@
     function addLog(msg) {
         const logPanel = document.getElementById('logPanel');
         const time = new Date().toLocaleTimeString();
-        logPanel.innerHTML += `<div class="log-entry"><span class="log-time">[${time}]</span> ${msg}</div>`;
+        logPanel.innerHTML += `<div class="log-entry"><span style="color:#8b949e">[${time}]</span> ${msg}</div>`;
         logPanel.scrollTop = logPanel.scrollHeight;
     }
 
-    // Fungsi Pilih Folder Input
+    function clearLogs() {
+        document.getElementById('logPanel').innerHTML = `<div class="log-entry">Logs cleared...</div>`;
+    }
+
     async function selectInputFolder() {
         try {
             const dirHandle = await window.showDirectoryPicker();
@@ -255,21 +286,20 @@
                     inputFiles.push(file);
                 }
             }
-            document.getElementById('inputPath').innerText = `C:/Local/Source/${dirHandle.name} (${inputFiles.length} file)`;
+            document.getElementById('inputPath').innerText = `C:/Source/${dirHandle.name} (${inputFiles.length} file)`;
             addLog(`Folder sumber terpilih: ${inputFiles.length} file ditemukan.`);
         } catch (e) {
-            addLog("Pemilihan folder input dibatalkan.");
+            addLog("Pemilihan folder dibatalkan.");
         }
     }
 
-    // Fungsi Pilih Folder Output
     async function selectOutputFolder() {
         try {
             outputDirHandle = await window.showDirectoryPicker();
-            document.getElementById('outputPath').innerText = `D:/Local/Destination/${outputDirHandle.name}`;
-            addLog("Folder tujuan berhasil ditetapkan.");
+            document.getElementById('outputPath').innerText = `D:/Destination/${outputDirHandle.name}`;
+            addLog("Folder tujuan ditetapkan.");
         } catch (e) {
-            addLog("Pemilihan folder output dibatalkan.");
+            addLog("Pemilihan folder dibatalkan.");
         }
     }
 
@@ -285,8 +315,15 @@
     }
 
     async function startProcess() {
+        const nVal = document.getElementById('numCount').value;
+        const cVal = document.getElementById('charCount').value;
+
         if (inputFiles.length === 0 || !outputDirHandle) {
-            alert("Harap pilih Folder Input dan Folder Output terlebih dahulu!");
+            alert("Harap pilih Folder Input dan Folder Output!");
+            return;
+        }
+        if (nVal === "" && cVal === "") {
+            alert("Harap isi jumlah angka atau jumlah huruf!");
             return;
         }
 
@@ -296,10 +333,10 @@
         document.getElementById('btnPause').disabled = false;
         document.getElementById('btnStop').disabled = false;
 
-        const numLen = parseInt(document.getElementById('numCount').value);
-        const charLen = parseInt(document.getElementById('charCount').value);
+        const numLen = parseInt(nVal) || 0;
+        const charLen = parseInt(cVal) || 0;
 
-        addLog("Memproses folder...");
+        addLog("Memulai proses...");
 
         for (; currentIndex < inputFiles.length; currentIndex++) {
             if (isStopped) break;
@@ -317,14 +354,14 @@
                 const writable = await newFileHandle.createWritable();
                 await writable.write(file);
                 await writable.close();
-                addLog(`Success: ${file.name} -> ${newName}`);
+                addLog(`${file.name} -> ${newName}`);
             } catch (err) {
-                addLog(`Error: Gagal memproses ${file.name}`);
+                addLog(`Gagal memproses ${file.name}`);
             }
         }
 
         if (!isPaused || isStopped) {
-            addLog("--- PEKERJAAN SELESAI ---");
+            addLog("PROSES SELESAI");
             resetButtons();
             currentIndex = 0;
         }
@@ -334,7 +371,7 @@
         isPaused = !isPaused;
         const btn = document.getElementById('btnPause');
         btn.innerText = isPaused ? "RESUME" : "PAUSE";
-        addLog(isPaused ? "Proses dipause." : "Proses dilanjutkan.");
+        addLog(isPaused ? "Diberhentikan sejenak." : "Dilanjutkan.");
     }
 
     function stopProcess() {
