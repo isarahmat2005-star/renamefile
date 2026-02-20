@@ -15,6 +15,7 @@
             --input-bg: #f9fafb;
             --log-bg: #111827;
             --log-text: #60a5fa;
+            --shape-color: rgba(37, 99, 235, 0.1);
         }
 
         body.dark-mode {
@@ -24,6 +25,7 @@
             --text: #c9d1d9;
             --input-bg: #010409;
             --log-bg: #000000;
+            --shape-color: rgba(96, 165, 250, 0.05);
         }
 
         body {
@@ -37,8 +39,40 @@
             margin: 0;
             padding: 10px;
             transition: all 0.3s ease;
+            overflow: hidden; /* Mencegah scroll karena animasi */
         }
 
+        /* --- Animasi Background Bergerak --- */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border: 2px solid var(--shape-color);
+            bottom: -150px;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        .square { width: 50px; height: 50px; left: 10%; }
+        .circle { width: 60px; height: 60px; left: 30%; border-radius: 50%; animation-duration: 18s; }
+        .triangle { 
+            width: 0; height: 0; left: 70%; 
+            border-left: 30px solid transparent; border-right: 30px solid transparent; 
+            border-bottom: 50px solid var(--shape-color); 
+            border-top: none; background: none; border-style: solid;
+            animation-duration: 20s;
+        }
+
+        /* --- UI Utama --- */
         .container {
             background-color: var(--card-bg);
             width: 100%;
@@ -52,6 +86,7 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
+            z-index: 1;
         }
 
         .top-nav {
@@ -72,18 +107,11 @@
             font-size: 20px;
         }
 
-        /* Ikon Mode SVG Profesional */
         .theme-toggle {
             background: var(--primary);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: white; border: none;
+            width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
 
         .icon-svg { width: 20px; height: 20px; fill: currentColor; }
@@ -94,106 +122,78 @@
         .explorer-bar { display: flex; gap: 8px; }
 
         .path-display {
-            flex-grow: 1;
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            padding: 10px;
-            font-size: 13px;
-            color: var(--text);
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
+            flex-grow: 1; background: var(--input-bg);
+            border: 1px solid var(--border); padding: 10px;
+            font-size: 13px; color: var(--text);
+            overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+            border-radius: 8px; display: flex; align-items: center;
         }
 
         .btn-browse {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
+            background: var(--primary); color: white; border: none;
+            padding: 10px 15px; cursor: pointer;
             font-family: 'Share Tech', sans-serif;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 12px;
+            border-radius: 8px; font-weight: bold; font-size: 12px;
         }
 
         .config-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 15px; margin-bottom: 15px;
         }
 
         .input-field {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            padding: 10px;
-            color: var(--text);
-            font-family: 'Share Tech', sans-serif;
-            box-sizing: border-box;
-            border-radius: 8px;
+            width: 100%; background: var(--input-bg);
+            border: 1px solid var(--border); padding: 10px;
+            color: var(--text); font-family: 'Share Tech', sans-serif;
+            box-sizing: border-box; border-radius: 8px;
         }
 
-        /* Tombol Start, Pause, Stop dibagi 3 sama rata */
-        .action-bars {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+        .action-bars { display: flex; gap: 10px; margin-bottom: 15px; }
 
         .btn-main { 
-            flex: 1; /* Ini membuat lebar dibagi rata 3 */
-            border: none; 
-            padding: 12px 0; 
-            cursor: pointer; 
-            font-family: 'Share Tech', sans-serif; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            border-radius: 8px;
-            font-size: 13px;
+            flex: 1; border: none; padding: 12px 0; 
+            cursor: pointer; font-family: 'Share Tech', sans-serif; 
+            font-weight: bold; text-transform: uppercase; 
+            border-radius: 8px; font-size: 13px;
         }
         
         .start { background: var(--primary); color: white; }
         .pause { background: #f59e0b; color: white; }
         .stop { background: #ef4444; color: white; }
-        .btn-main:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-main:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
         .log-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 5px;
         }
 
-        .btn-clear {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
+        .log-actions { display: flex; gap: 10px; }
+
+        .btn-clear, .btn-copy {
+            background: none; border: none;
+            color: var(--primary); cursor: pointer;
             font-family: 'Share Tech', sans-serif;
-            font-size: 12px;
-            text-decoration: underline;
+            font-size: 11px; text-decoration: underline;
         }
 
         .log-panel {
-            background: var(--log-bg);
-            border: 1px solid var(--border);
-            flex-grow: 1;
-            padding: 12px;
-            overflow-y: auto;
-            font-size: 11px;
-            color: var(--log-text);
-            border-radius: 8px;
+            background: var(--log-bg); border: 1px solid var(--border);
+            flex-grow: 1; padding: 12px; overflow-y: auto;
+            font-size: 11px; color: var(--log-text); border-radius: 8px;
         }
 
         .log-entry { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px; }
     </style>
 </head>
 <body>
+
+<div class="bg-animation">
+    <div class="shape square" style="left: 5%; animation-delay: 0s;"></div>
+    <div class="shape circle" style="left: 25%; animation-delay: 2s;"></div>
+    <div class="shape triangle" style="left: 45%; animation-delay: 4s;"></div>
+    <div class="shape square" style="left: 65%; animation-delay: 6s;"></div>
+    <div class="shape circle" style="left: 85%; animation-delay: 8s;"></div>
+</div>
 
 <div class="container">
     <div class="top-nav">
@@ -228,14 +228,17 @@
     </div>
 
     <div class="action-bars">
-        <button id="btnStart" class="btn-main start" onclick="startProcess()">STAR</button>
+        <button id="btnStart" class="btn-main start" onclick="startProcess()" disabled>STAR</button>
         <button id="btnPause" class="btn-main pause" onclick="pauseProcess()" disabled>PAUSE</button>
         <button id="btnStop" class="btn-main stop" onclick="stopProcess()" disabled>STOP</button>
     </div>
 
     <div class="log-header">
         <label>Activity Log</label>
-        <button class="btn-clear" onclick="clearLogs()">CLEAR LOGS</button>
+        <div class="log-actions">
+            <button class="btn-copy" onclick="copyLogs()">COPY LOGS</button>
+            <button class="btn-clear" onclick="clearLogs()">CLEAR LOGS</button>
+        </div>
     </div>
     <div id="logPanel" class="log-panel"><div class="log-entry">System ready...</div></div>
 </div>
@@ -264,20 +267,45 @@
 
     function clearLogs() { document.getElementById('logPanel').innerHTML = `<div class="log-entry">Logs cleared...</div>`; }
 
+    function copyLogs() {
+        const logs = document.getElementById('logPanel').innerText;
+        navigator.clipboard.writeText(logs).then(() => alert("Logs copied to clipboard!"));
+    }
+
+    // Fungsi Validasi Tombol Star
+    function validateStar() {
+        const btn = document.getElementById('btnStart');
+        // Di desktop butuh outputDirHandle, di HP butuh inputFiles
+        if(inputFiles.length > 0 && (outputDirHandle !== null || window.innerWidth < 768)) {
+            btn.disabled = false;
+        } else {
+            btn.disabled = true;
+        }
+    }
+
     function handleFolderSelect(event) {
         inputFiles = Array.from(event.target.files);
         if(inputFiles.length > 0) {
             document.getElementById('inputPath').innerText = `Folder: ${inputFiles[0].webkitRelativePath.split('/')[0]} (${inputFiles.length} file)`;
             addLog(`Folder sumber terpilih: ${inputFiles.length} file.`);
+            validateStar();
         }
     }
 
     async function selectOutputFolder() {
+        if (!window.showDirectoryPicker) {
+            addLog("Mode HP Aktif: Output akan diunduh satu per satu.");
+            document.getElementById('outputPath').innerText = "Mode Download Otomatis (HP)";
+            outputDirHandle = "MOBILE_MODE";
+            validateStar();
+            return;
+        }
         try {
             outputDirHandle = await window.showDirectoryPicker();
             document.getElementById('outputPath').innerText = `Destination: ${outputDirHandle.name}`;
             addLog("Folder tujuan siap.");
-        } catch (e) { addLog("Akses folder output ditolak (Hanya support Chrome Desktop)."); }
+            validateStar();
+        } catch (e) { addLog("Akses ditolak."); }
     }
 
     function generateMixName(numLen, charLen) {
@@ -291,9 +319,8 @@
 
     async function startProcess() {
         const nVal = document.getElementById('numCount').value, cVal = document.getElementById('charCount').value;
-        if (inputFiles.length === 0 || !outputDirHandle) return alert("Pilih Folder Input & Output!");
-        if (nVal === "" && cVal === "") return alert("Isi jumlah karakter!");
-
+        if (inputFiles.length === 0) return alert("Pilih Folder Input!");
+        
         isStopped = false; isPaused = false;
         document.getElementById('btnStart').disabled = true;
         document.getElementById('btnPause').disabled = false;
@@ -307,13 +334,25 @@
             const ext = file.name.substring(file.name.lastIndexOf('.'));
             const newName = generateMixName(parseInt(nVal)||0, parseInt(cVal)||0) + ext;
 
-            try {
-                const newFileHandle = await outputDirHandle.getFileHandle(newName, { create: true });
-                const writable = await newFileHandle.createWritable();
-                await writable.write(file);
-                await writable.close();
-                addLog(`Renamed: ${newName}`);
-            } catch (err) { addLog(`Gagal simpan (Hanya support desktop)`); break; }
+            if (outputDirHandle === "MOBILE_MODE") {
+                // Logika untuk HP: Trigger Download
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(file);
+                link.download = newName;
+                link.click();
+                addLog(`Downloading: ${newName}`);
+                // Beri jeda sedikit agar browser HP tidak macet saat download masal
+                await new Promise(r => setTimeout(r, 800));
+            } else {
+                // Logika Desktop
+                try {
+                    const newFileHandle = await outputDirHandle.getFileHandle(newName, { create: true });
+                    const writable = await newFileHandle.createWritable();
+                    await writable.write(file);
+                    await writable.close();
+                    addLog(`Renamed: ${newName}`);
+                } catch (err) { addLog(`Error simpan`); break; }
+            }
         }
         addLog("SELESAI");
         resetButtons();
