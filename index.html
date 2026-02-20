@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rename File Masal | Profesional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: var(--text-main);
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .step-group {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .step-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .label-title {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .input-number {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .input-number:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Styling Custom File Input */
+        .file-upload-wrapper {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-color);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: var(--primary);
+            background-color: #eff6ff;
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .status-panel {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .status-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .text-warning { color: var(--warning); }
+        .text-success { color: var(--success); }
+        .text-danger { color: var(--danger); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Renamer Masal</h1>
+        <p>Ganti nama file dengan deretan angka acak secara otomatis</p>
+    </div>
+
+    <div class="step-group">
+        <label class="label-title" for="digitCount">1. Tentukan Panjang Angka Acak</label>
+        <input type="number" id="digitCount" class="input-number" value="10" min="1" max="50" placeholder="Contoh: 10">
+    </div>
+
+    <div class="step-group">
+        <label class="label-title">2. Pilih File Asli</label>
+        <div class="file-upload-wrapper">
+            <span class="file-upload-text" id="uploadText">Klik di sini untuk memilih file</span>
+            <input type="file" id="fileInput" multiple onchange="updateFileInfo()">
+        </div>
+    </div>
+
+    <div class="step-group">
+        <label class="label-title">3. Tentukan Folder Output & Simpan</label>
+        <button class="btn-primary" onclick="processAndSaveFiles()">Pilih Folder Tujuan & Mulai</button>
+    </div>
+
+    <div class="status-panel">
+        <div class="status-row">
+            <span class="status-label">File Terpilih:</span>
+            <span class="status-value" id="fileCount">0 File</span>
+        </div>
+        <div class="status-row">
+            <span class="status-label">Status Proses:</span>
+            <span class="status-value" id="processStatus">Menunggu input...</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedFiles = [];
+
+    function generateRandomNumbers(length) {
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += Math.floor(Math.random() * 10).toString(); 
+        }
+        return result;
+    }
+
+    function updateFileInfo() {
+        const fileInput = document.getElementById('fileInput');
+        selectedFiles = fileInput.files;
+        
+        // Update teks pada area drag & drop / upload
+        const uploadText = document.getElementById('uploadText');
+        if (selectedFiles.length > 0) {
+            uploadText.innerText = `${selectedFiles.length} file siap diproses`;
+            uploadText.style.color = 'var(--primary)';
+            uploadText.style.fontWeight = '600';
+        } else {
+            uploadText.innerText = 'Klik di sini untuk memilih file';
+            uploadText.style.color = 'var(--text-muted)';
+            uploadText.style.fontWeight = '500';
+        }
+
+        // Update panel status
+        document.getElementById('fileCount').innerText = `${selectedFiles.length} File`;
+        
+        const statusEl = document.getElementById('processStatus');
+        statusEl.innerText = "Siap dijalankan";
+        statusEl.className = "status-value"; // Reset warna
+    }
+
+    async function processAndSaveFiles() {
+        if (selectedFiles.length === 0) {
+            alert('Silakan pilih file pada Langkah 2 terlebih dahulu!');
+            return;
+        }
+
+        const digitLength = parseInt(document.getElementById('digitCount').value) || 10;
+        const statusText = document.getElementById('processStatus');
+
+        try {
+            // Meminta akses folder
+            const directoryHandle = await window.showDirectoryPicker({
+                mode: 'readwrite'
+            });
+
+            statusText.innerText = "Sedang memproses...";
+            statusText.className = "status-value text-warning";
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                const extension = file.name.substring(file.name.lastIndexOf('.'));
+                const newFileName = generateRandomNumbers(digitLength) + extension;
+
+                const newFileHandle = await directoryHandle.getFileHandle(newFileName, { create: true });
+                const writable = await newFileHandle.createWritable();
+                
+                await writable.write(file);
+                await writable.close();
+            }
+
+            statusText.innerText = "Selesai! File tersimpan.";
+            statusText.className = "status-value text-success";
+            
+        } catch (error) {
+            console.error(error);
+            if (error.name === 'AbortError') {
+                statusText.innerText = "Dibatalkan pengguna.";
+                statusText.className = "status-value text-danger";
+            } else {
+                statusText.innerText = "Gagal. Gunakan Chrome/Edge.";
+                statusText.className = "status-value text-danger";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
