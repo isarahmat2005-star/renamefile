@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renamer Pro | Tech Edition</title>
+    <title>Renamer Pro | Tech Blue Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00ff41; /* Cyber Green */
-            --bg-dark: #0d1117;
+            --primary: #2563eb; /* Biru Profesional */
+            --bg-body: #f0f2f5;
+            --card-bg: #ffffff;
+            --border: #d1d5db;
+            --text: #1f2937;
+            --input-bg: #f9fafb;
+            --log-bg: #111827;
+            --log-text: #60a5fa;
+        }
+
+        /* Mode Gelap */
+        body.dark-mode {
+            --bg-body: #0d1117;
             --card-bg: #161b22;
             --border: #30363d;
             --text: #c9d1d9;
             --input-bg: #010409;
+            --log-bg: #000000;
         }
 
         body {
             font-family: 'Share Tech', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-body);
             color: var(--text);
             display: flex;
             justify-content: center;
@@ -25,6 +37,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            transition: all 0.3s ease;
         }
 
         .container {
@@ -32,20 +45,45 @@
             width: 100%;
             max-width: 700px;
             padding: 30px;
-            border-radius: 4px;
+            border-radius: 12px; /* Melengkung */
             border: 1px solid var(--border);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        h1 { color: var(--primary); text-transform: uppercase; margin-top: 0; letter-spacing: 2px; border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 5px; }
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 { 
+            color: var(--primary); 
+            text-transform: uppercase; 
+            margin: 0; 
+            letter-spacing: 2px; 
+            border-bottom: 2px solid var(--primary); 
+            display: inline-block; 
+            padding-bottom: 5px; 
+        }
+
+        .theme-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Share Tech', sans-serif;
+        }
 
         .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 14px; color: var(--primary); }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: var(--primary); font-weight: bold; }
 
-        /* Explorer Style Layout */
         .explorer-bar {
             display: flex;
-            gap: 5px;
+            gap: 8px;
         }
 
         .path-display {
@@ -54,25 +92,29 @@
             border: 1px solid var(--border);
             padding: 10px;
             font-size: 13px;
-            color: #8b949e;
+            color: var(--text);
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            border-radius: 8px; /* Melengkung */
+            display: flex;
+            align-items: center;
         }
 
         .btn-browse {
-            background: var(--border);
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 25px;
             cursor: pointer;
             font-family: 'Share Tech', sans-serif;
             transition: 0.2s;
+            border-radius: 8px; /* Melengkung */
+            font-weight: bold;
         }
 
-        .btn-browse:hover { background: #484f58; }
+        .btn-browse:hover { opacity: 0.8; }
 
-        /* Configuration Grid */
         .config-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -85,12 +127,12 @@
             background: var(--input-bg);
             border: 1px solid var(--border);
             padding: 10px;
-            color: var(--primary);
+            color: var(--text);
             font-family: 'Share Tech', sans-serif;
             box-sizing: border-box;
+            border-radius: 8px; /* Melengkung */
         }
 
-        /* Action Buttons */
         .action-bars {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
@@ -98,47 +140,57 @@
             margin-bottom: 25px;
         }
 
-        .btn-main { border: none; padding: 12px; cursor: pointer; font-family: 'Share Tech', sans-serif; font-weight: bold; text-transform: uppercase; }
-        .start { background: var(--primary); color: black; }
-        .pause { background: #f1e05a; color: black; }
-        .stop { background: #f85149; color: white; }
+        .btn-main { 
+            border: none; 
+            padding: 12px; 
+            cursor: pointer; 
+            font-family: 'Share Tech', sans-serif; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            border-radius: 8px; /* Melengkung */
+        }
+        
+        .start { background: var(--primary); color: white; }
+        .pause { background: #f59e0b; color: white; }
+        .stop { background: #ef4444; color: white; }
         .btn-main:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        /* Log Panel */
         .log-panel {
-            background: #000;
+            background: var(--log-bg);
             border: 1px solid var(--border);
             height: 150px;
-            padding: 10px;
+            padding: 12px;
             overflow-y: auto;
             font-size: 12px;
-            color: #00ff41;
-            border-radius: 4px;
+            color: var(--log-text);
+            border-radius: 8px; /* Melengkung */
         }
 
-        .log-entry { margin-bottom: 4px; border-bottom: 1px solid #111; padding-bottom: 2px; }
+        .log-entry { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 2px; }
         .log-time { color: #8b949e; margin-right: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>File Renamer Tool</h1>
+    <div class="top-nav">
+        <h1>Renamer Pro</h1>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">MODE GELAP</button>
+    </div>
     
     <div class="input-group">
-        <label>Input Source</label>
+        <label>Input Folder</label>
         <div class="explorer-bar">
-            <div id="inputPath" class="path-display">Pilih file untuk diproses...</div>
-            <button class="btn-browse" onclick="document.getElementById('fileInput').click()">UPLOAD</button>
-            <input type="file" id="fileInput" multiple style="display:none" onchange="handleFiles(this)">
+            <div id="inputPath" class="path-display">Pilih folder sumber...</div>
+            <button class="btn-browse" onclick="selectInputFolder()">UPLOAD</button>
         </div>
     </div>
 
     <div class="input-group">
-        <label>Output Destination</label>
+        <label>Output Folder</label>
         <div class="explorer-bar">
             <div id="outputPath" class="path-display">Pilih folder tujuan...</div>
-            <button class="btn-browse" onclick="selectOutputFolder()">DESTINATION</button>
+            <button class="btn-browse" onclick="selectOutputFolder()">UPLOAD</button>
         </div>
     </div>
 
@@ -161,16 +213,29 @@
 
     <label>Activity Log</label>
     <div id="logPanel" class="log-panel">
-        <div class="log-entry">System ready...</div>
+        <div class="log-entry">System ready... (Default: Light Mode)</div>
     </div>
 </div>
 
 <script>
-    let selectedFiles = [];
+    let inputFiles = [];
     let outputDirHandle = null;
     let isPaused = false;
     let isStopped = false;
     let currentIndex = 0;
+
+    function toggleTheme() {
+        const body = document.body;
+        const btn = document.getElementById('themeBtn');
+        body.classList.toggle('dark-mode');
+        if(body.classList.contains('dark-mode')) {
+            btn.innerText = "MODE TERANG";
+            addLog("Theme changed to Dark Mode");
+        } else {
+            btn.innerText = "MODE GELAP";
+            addLog("Theme changed to Light Mode");
+        }
+    }
 
     function addLog(msg) {
         const logPanel = document.getElementById('logPanel');
@@ -179,21 +244,32 @@
         logPanel.scrollTop = logPanel.scrollHeight;
     }
 
-    function handleFiles(input) {
-        selectedFiles = input.files;
-        if (selectedFiles.length > 0) {
-            document.getElementById('inputPath').innerText = `C:/Users/Local/Documents/${selectedFiles.length}_Files_Selected`;
-            addLog(`${selectedFiles.length} file dimasukkan ke antrean.`);
+    // Fungsi Pilih Folder Input
+    async function selectInputFolder() {
+        try {
+            const dirHandle = await window.showDirectoryPicker();
+            inputFiles = [];
+            for await (const entry of dirHandle.values()) {
+                if (entry.kind === 'file') {
+                    const file = await entry.getFile();
+                    inputFiles.push(file);
+                }
+            }
+            document.getElementById('inputPath').innerText = `C:/Local/Source/${dirHandle.name} (${inputFiles.length} file)`;
+            addLog(`Folder sumber terpilih: ${inputFiles.length} file ditemukan.`);
+        } catch (e) {
+            addLog("Pemilihan folder input dibatalkan.");
         }
     }
 
+    // Fungsi Pilih Folder Output
     async function selectOutputFolder() {
         try {
             outputDirHandle = await window.showDirectoryPicker();
-            document.getElementById('outputPath').innerText = `D:/Output/${outputDirHandle.name}`;
-            addLog("Folder tujuan ditetapkan.");
+            document.getElementById('outputPath').innerText = `D:/Local/Destination/${outputDirHandle.name}`;
+            addLog("Folder tujuan berhasil ditetapkan.");
         } catch (e) {
-            addLog("Pemilihan folder dibatalkan.");
+            addLog("Pemilihan folder output dibatalkan.");
         }
     }
 
@@ -201,21 +277,16 @@
         const nums = "0123456789";
         const chars = "abcdefghijklmnopqrstuvwxyz";
         let combined = "";
-        
-        // Buat kumpulan karakter acak
         for(let i=0; i<numLen; i++) combined += nums.charAt(Math.floor(Math.random() * nums.length));
         for(let i=0; i<charLen; i++) combined += chars.charAt(Math.floor(Math.random() * chars.length));
-
-        // Acak urutannya (Shuffle)
         let shuffled = combined.split('').sort(() => 0.5 - Math.random()).join('');
-        
-        // Beri tanda minus setiap 5 karakter
-        return shuffled.match(/.{1,5}/g).join('-');
+        const parts = shuffled.match(/.{1,5}/g);
+        return parts ? parts.join('-') : shuffled;
     }
 
     async function startProcess() {
-        if (selectedFiles.length === 0 || !outputDirHandle) {
-            alert("Pilih file dan folder tujuan terlebih dahulu!");
+        if (inputFiles.length === 0 || !outputDirHandle) {
+            alert("Harap pilih Folder Input dan Folder Output terlebih dahulu!");
             return;
         }
 
@@ -228,16 +299,16 @@
         const numLen = parseInt(document.getElementById('numCount').value);
         const charLen = parseInt(document.getElementById('charCount').value);
 
-        addLog("Memulai proses penggantian nama...");
+        addLog("Memproses folder...");
 
-        for (; currentIndex < selectedFiles.length; currentIndex++) {
+        for (; currentIndex < inputFiles.length; currentIndex++) {
             if (isStopped) break;
             while (isPaused) {
                 await new Promise(r => setTimeout(r, 500));
                 if (isStopped) break;
             }
 
-            const file = selectedFiles[currentIndex];
+            const file = inputFiles[currentIndex];
             const ext = file.name.substring(file.name.lastIndexOf('.'));
             const newName = generateMixName(numLen, charLen) + ext;
 
@@ -248,12 +319,12 @@
                 await writable.close();
                 addLog(`Success: ${file.name} -> ${newName}`);
             } catch (err) {
-                addLog(`Error pada file ${file.name}`);
+                addLog(`Error: Gagal memproses ${file.name}`);
             }
         }
 
         if (!isPaused || isStopped) {
-            addLog("--- PROSES SELESAI ---");
+            addLog("--- PEKERJAAN SELESAI ---");
             resetButtons();
             currentIndex = 0;
         }
@@ -263,12 +334,12 @@
         isPaused = !isPaused;
         const btn = document.getElementById('btnPause');
         btn.innerText = isPaused ? "RESUME" : "PAUSE";
-        addLog(isPaused ? "Proses dihentikan sejenak." : "Proses dilanjutkan.");
+        addLog(isPaused ? "Proses dipause." : "Proses dilanjutkan.");
     }
 
     function stopProcess() {
         isStopped = true;
-        addLog("Proses dihentikan paksa oleh pengguna.");
+        addLog("Proses dihentikan.");
         resetButtons();
     }
 
