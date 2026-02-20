@@ -3,306 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rename File Masal | Profesional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Renamer Pro | Tech Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --primary: #00ff41; /* Cyber Green */
+            --bg-dark: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --input-bg: #010409;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: 'Share Tech', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            box-sizing: border-box;
         }
 
         .container {
             background-color: var(--card-bg);
             width: 100%;
-            max-width: 550px;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+        h1 { color: var(--primary); text-transform: uppercase; margin-top: 0; letter-spacing: 2px; border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 5px; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: var(--primary); }
+
+        /* Explorer Style Layout */
+        .explorer-bar {
+            display: flex;
+            gap: 5px;
         }
 
-        .header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            color: var(--text-main);
+        .path-display {
+            flex-grow: 1;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            padding: 10px;
+            font-size: 13px;
+            color: #8b949e;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
-        .header p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin: 0;
+        .btn-browse {
+            background: var(--border);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Share Tech', sans-serif;
+            transition: 0.2s;
         }
 
-        .step-group {
-            margin-bottom: 24px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border-color);
+        .btn-browse:hover { background: #484f58; }
+
+        /* Configuration Grid */
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .step-group:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .label-title {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-main);
-        }
-
-        .input-number {
+        .input-field {
             width: 100%;
-            padding: 12px 16px;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.2s;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            padding: 10px;
+            color: var(--primary);
+            font-family: 'Share Tech', sans-serif;
             box-sizing: border-box;
         }
 
-        .input-number:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        /* Action Buttons */
+        .action-bars {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 25px;
         }
 
-        /* Styling Custom File Input */
-        .file-upload-wrapper {
-            position: relative;
-            width: 100%;
-            height: 60px;
-            border: 2px dashed var(--border-color);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--bg-color);
-            transition: all 0.2s ease;
-            cursor: pointer;
+        .btn-main { border: none; padding: 12px; cursor: pointer; font-family: 'Share Tech', sans-serif; font-weight: bold; text-transform: uppercase; }
+        .start { background: var(--primary); color: black; }
+        .pause { background: #f1e05a; color: black; }
+        .stop { background: #f85149; color: white; }
+        .btn-main:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* Log Panel */
+        .log-panel {
+            background: #000;
+            border: 1px solid var(--border);
+            height: 150px;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 12px;
+            color: #00ff41;
+            border-radius: 4px;
         }
 
-        .file-upload-wrapper:hover {
-            border-color: var(--primary);
-            background-color: #eff6ff;
-        }
-
-        .file-upload-wrapper input[type="file"] {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .file-upload-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .btn-primary {
-            width: 100%;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-
-        .status-panel {
-            margin-top: 24px;
-            padding: 16px;
-            background-color: var(--bg-color);
-            border-radius: 8px;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        .status-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .status-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .status-label {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .status-value {
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .text-warning { color: var(--warning); }
-        .text-success { color: var(--success); }
-        .text-danger { color: var(--danger); }
+        .log-entry { margin-bottom: 4px; border-bottom: 1px solid #111; padding-bottom: 2px; }
+        .log-time { color: #8b949e; margin-right: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>Renamer Masal</h1>
-        <p>Ganti nama file dengan deretan angka acak secara otomatis</p>
-    </div>
-
-    <div class="step-group">
-        <label class="label-title" for="digitCount">1. Tentukan Panjang Angka Acak</label>
-        <input type="number" id="digitCount" class="input-number" value="10" min="1" max="50" placeholder="Contoh: 10">
-    </div>
-
-    <div class="step-group">
-        <label class="label-title">2. Pilih File Asli</label>
-        <div class="file-upload-wrapper">
-            <span class="file-upload-text" id="uploadText">Klik di sini untuk memilih file</span>
-            <input type="file" id="fileInput" multiple onchange="updateFileInfo()">
+    <h1>File Renamer Tool</h1>
+    
+    <div class="input-group">
+        <label>Input Source</label>
+        <div class="explorer-bar">
+            <div id="inputPath" class="path-display">Pilih file untuk diproses...</div>
+            <button class="btn-browse" onclick="document.getElementById('fileInput').click()">UPLOAD</button>
+            <input type="file" id="fileInput" multiple style="display:none" onchange="handleFiles(this)">
         </div>
     </div>
 
-    <div class="step-group">
-        <label class="label-title">3. Tentukan Folder Output & Simpan</label>
-        <button class="btn-primary" onclick="processAndSaveFiles()">Pilih Folder Tujuan & Mulai</button>
+    <div class="input-group">
+        <label>Output Destination</label>
+        <div class="explorer-bar">
+            <div id="outputPath" class="path-display">Pilih folder tujuan...</div>
+            <button class="btn-browse" onclick="selectOutputFolder()">DESTINATION</button>
+        </div>
     </div>
 
-    <div class="status-panel">
-        <div class="status-row">
-            <span class="status-label">File Terpilih:</span>
-            <span class="status-value" id="fileCount">0 File</span>
+    <div class="config-grid">
+        <div>
+            <label>Jumlah Angka</label>
+            <input type="number" id="numCount" class="input-field" value="5">
         </div>
-        <div class="status-row">
-            <span class="status-label">Status Proses:</span>
-            <span class="status-value" id="processStatus">Menunggu input...</span>
+        <div>
+            <label>Jumlah Huruf</label>
+            <input type="number" id="charCount" class="input-field" value="5">
         </div>
+    </div>
+
+    <div class="action-bars">
+        <button id="btnStart" class="btn-main start" onclick="startProcess()">MULAI</button>
+        <button id="btnPause" class="btn-main pause" onclick="pauseProcess()" disabled>PAUSE</button>
+        <button id="btnStop" class="btn-main stop" onclick="stopProcess()" disabled>STOP</button>
+    </div>
+
+    <label>Activity Log</label>
+    <div id="logPanel" class="log-panel">
+        <div class="log-entry">System ready...</div>
     </div>
 </div>
 
 <script>
     let selectedFiles = [];
+    let outputDirHandle = null;
+    let isPaused = false;
+    let isStopped = false;
+    let currentIndex = 0;
 
-    function generateRandomNumbers(length) {
-        let result = '';
-        for (let i = 0; i < length; i++) {
-            result += Math.floor(Math.random() * 10).toString(); 
-        }
-        return result;
+    function addLog(msg) {
+        const logPanel = document.getElementById('logPanel');
+        const time = new Date().toLocaleTimeString();
+        logPanel.innerHTML += `<div class="log-entry"><span class="log-time">[${time}]</span> ${msg}</div>`;
+        logPanel.scrollTop = logPanel.scrollHeight;
     }
 
-    function updateFileInfo() {
-        const fileInput = document.getElementById('fileInput');
-        selectedFiles = fileInput.files;
-        
-        // Update teks pada area drag & drop / upload
-        const uploadText = document.getElementById('uploadText');
+    function handleFiles(input) {
+        selectedFiles = input.files;
         if (selectedFiles.length > 0) {
-            uploadText.innerText = `${selectedFiles.length} file siap diproses`;
-            uploadText.style.color = 'var(--primary)';
-            uploadText.style.fontWeight = '600';
-        } else {
-            uploadText.innerText = 'Klik di sini untuk memilih file';
-            uploadText.style.color = 'var(--text-muted)';
-            uploadText.style.fontWeight = '500';
+            document.getElementById('inputPath').innerText = `C:/Users/Local/Documents/${selectedFiles.length}_Files_Selected`;
+            addLog(`${selectedFiles.length} file dimasukkan ke antrean.`);
         }
-
-        // Update panel status
-        document.getElementById('fileCount').innerText = `${selectedFiles.length} File`;
-        
-        const statusEl = document.getElementById('processStatus');
-        statusEl.innerText = "Siap dijalankan";
-        statusEl.className = "status-value"; // Reset warna
     }
 
-    async function processAndSaveFiles() {
-        if (selectedFiles.length === 0) {
-            alert('Silakan pilih file pada Langkah 2 terlebih dahulu!');
+    async function selectOutputFolder() {
+        try {
+            outputDirHandle = await window.showDirectoryPicker();
+            document.getElementById('outputPath').innerText = `D:/Output/${outputDirHandle.name}`;
+            addLog("Folder tujuan ditetapkan.");
+        } catch (e) {
+            addLog("Pemilihan folder dibatalkan.");
+        }
+    }
+
+    function generateMixName(numLen, charLen) {
+        const nums = "0123456789";
+        const chars = "abcdefghijklmnopqrstuvwxyz";
+        let combined = "";
+        
+        // Buat kumpulan karakter acak
+        for(let i=0; i<numLen; i++) combined += nums.charAt(Math.floor(Math.random() * nums.length));
+        for(let i=0; i<charLen; i++) combined += chars.charAt(Math.floor(Math.random() * chars.length));
+
+        // Acak urutannya (Shuffle)
+        let shuffled = combined.split('').sort(() => 0.5 - Math.random()).join('');
+        
+        // Beri tanda minus setiap 5 karakter
+        return shuffled.match(/.{1,5}/g).join('-');
+    }
+
+    async function startProcess() {
+        if (selectedFiles.length === 0 || !outputDirHandle) {
+            alert("Pilih file dan folder tujuan terlebih dahulu!");
             return;
         }
 
-        const digitLength = parseInt(document.getElementById('digitCount').value) || 10;
-        const statusText = document.getElementById('processStatus');
+        isStopped = false;
+        isPaused = false;
+        document.getElementById('btnStart').disabled = true;
+        document.getElementById('btnPause').disabled = false;
+        document.getElementById('btnStop').disabled = false;
 
-        try {
-            // Meminta akses folder
-            const directoryHandle = await window.showDirectoryPicker({
-                mode: 'readwrite'
-            });
+        const numLen = parseInt(document.getElementById('numCount').value);
+        const charLen = parseInt(document.getElementById('charCount').value);
 
-            statusText.innerText = "Sedang memproses...";
-            statusText.className = "status-value text-warning";
+        addLog("Memulai proses penggantian nama...");
 
-            for (let i = 0; i < selectedFiles.length; i++) {
-                const file = selectedFiles[i];
-                const extension = file.name.substring(file.name.lastIndexOf('.'));
-                const newFileName = generateRandomNumbers(digitLength) + extension;
+        for (; currentIndex < selectedFiles.length; currentIndex++) {
+            if (isStopped) break;
+            while (isPaused) {
+                await new Promise(r => setTimeout(r, 500));
+                if (isStopped) break;
+            }
 
-                const newFileHandle = await directoryHandle.getFileHandle(newFileName, { create: true });
+            const file = selectedFiles[currentIndex];
+            const ext = file.name.substring(file.name.lastIndexOf('.'));
+            const newName = generateMixName(numLen, charLen) + ext;
+
+            try {
+                const newFileHandle = await outputDirHandle.getFileHandle(newName, { create: true });
                 const writable = await newFileHandle.createWritable();
-                
                 await writable.write(file);
                 await writable.close();
-            }
-
-            statusText.innerText = "Selesai! File tersimpan.";
-            statusText.className = "status-value text-success";
-            
-        } catch (error) {
-            console.error(error);
-            if (error.name === 'AbortError') {
-                statusText.innerText = "Dibatalkan pengguna.";
-                statusText.className = "status-value text-danger";
-            } else {
-                statusText.innerText = "Gagal. Gunakan Chrome/Edge.";
-                statusText.className = "status-value text-danger";
+                addLog(`Success: ${file.name} -> ${newName}`);
+            } catch (err) {
+                addLog(`Error pada file ${file.name}`);
             }
         }
+
+        if (!isPaused || isStopped) {
+            addLog("--- PROSES SELESAI ---");
+            resetButtons();
+            currentIndex = 0;
+        }
+    }
+
+    function pauseProcess() {
+        isPaused = !isPaused;
+        const btn = document.getElementById('btnPause');
+        btn.innerText = isPaused ? "RESUME" : "PAUSE";
+        addLog(isPaused ? "Proses dihentikan sejenak." : "Proses dilanjutkan.");
+    }
+
+    function stopProcess() {
+        isStopped = true;
+        addLog("Proses dihentikan paksa oleh pengguna.");
+        resetButtons();
+    }
+
+    function resetButtons() {
+        document.getElementById('btnStart').disabled = false;
+        document.getElementById('btnPause').disabled = true;
+        document.getElementById('btnStop').disabled = true;
+        document.getElementById('btnPause').innerText = "PAUSE";
     }
 </script>
 
