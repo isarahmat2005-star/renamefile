@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Flux Pro | Blue Edition</title>
+    <title>REFORNAM | Blue Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
@@ -41,7 +41,7 @@
             overflow: hidden;
         }
 
-        /* --- Animasi Wireframe Matematika & Random Color --- */
+        /* --- Animasi Wireframe Matematika --- */
         .bg-animation {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -87,7 +87,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         h1 { 
@@ -101,14 +101,58 @@
             font-size: 20px;
         }
 
+        /* --- Tab System --- */
+        .tab-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tab-line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 20px;
+            background: var(--card-bg);
+            padding: 0 15px;
+            z-index: 1;
+        }
+
+        .btn-tab {
+            background: none;
+            border: none;
+            font-family: 'Share Tech', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text);
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: 0.3s;
+            opacity: 0.5;
+        }
+
+        .btn-tab.active {
+            color: var(--primary);
+            opacity: 1;
+            border-bottom: 2px solid var(--primary);
+        }
+
         .theme-toggle {
             background: var(--primary);
             color: white; border: none;
-            width: 40px; height: 40px; border-radius: 50%;
+            width: 35px; height: 35px; border-radius: 50%;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
 
-        .icon-svg { width: 20px; height: 20px; fill: currentColor; }
+        .icon-svg { width: 18px; height: 18px; fill: currentColor; }
 
         .input-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 4px; font-size: 13px; color: var(--primary); font-weight: bold; }
@@ -142,7 +186,6 @@
             box-sizing: border-box; border-radius: 8px; font-size: 13px;
         }
 
-        /* Lebar dibagi 4 sama panjang */
         .action-bars { display: flex; gap: 8px; margin-bottom: 12px; }
 
         .btn-main { 
@@ -178,7 +221,6 @@
             background: var(--log-bg); border: 1px solid var(--border);
             flex-grow: 1; padding: 10px; overflow-y: auto;
             font-size: 11px; color: var(--log-text); border-radius: 8px;
-            /* Memastikan scroll tetap berfungsi dengan baik */
             scroll-behavior: smooth;
         }
 
@@ -191,34 +233,36 @@
 
 <div class="container">
     <div class="top-nav">
-        <h1>File Flux Pro</h1>
+        <h1>REFORNAM</h1>
         <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
             <svg id="themeIcon" class="icon-svg" viewBox="0 0 24 24">
                 <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>
             </svg>
         </button>
     </div>
+
+    <div class="tab-container">
+        <div class="tab-line"></div>
+        <div class="tab-buttons">
+            <button class="btn-tab active" onclick="switchTab('format')">FORMAT</button>
+            <button class="btn-tab" onclick="switchTab('name')">NAME</button>
+        </div>
+    </div>
     
-    <div class="input-group">
-        <label>Input Folder</label>
-        <div class="explorer-bar">
-            <div id="inputPath" class="path-display">Pilih folder sumber...</div>
-            <button class="btn-browse" onclick="document.getElementById('folderInput').click()">UPLOAD</button>
-            <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none" onchange="handleFolderSelect(event)">
+    <div id="tabContent">
+        <div class="input-group">
+            <label>Input Folder</label>
+            <div class="explorer-bar">
+                <div id="inputPath" class="path-display">Pilih folder sumber...</div>
+                <button class="btn-browse" onclick="document.getElementById('folderInput').click()">UPLOAD</button>
+                <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none" onchange="handleFolderSelect(event)">
+            </div>
         </div>
-    </div>
 
-    <div class="input-group">
-        <label>Output Folder</label>
-        <div class="explorer-bar">
-            <div id="outputPath" class="path-display">Pilih folder tujuan...</div>
-            <button class="btn-browse" onclick="selectOutputFolder()">UPLOAD</button>
+        <div class="config-grid">
+            <div><label>Jumlah Angka</label><input type="number" id="numCount" class="input-field" placeholder="0" oninput="validateStar()"></div>
+            <div><label>Jumlah Huruf</label><input type="number" id="charCount" class="input-field" placeholder="0" oninput="validateStar()"></div>
         </div>
-    </div>
-
-    <div class="config-grid">
-        <div><label>Jumlah Angka</label><input type="number" id="numCount" class="input-field" placeholder="0"></div>
-        <div><label>Jumlah Huruf</label><input type="number" id="charCount" class="input-field" placeholder="0"></div>
     </div>
 
     <div class="action-bars">
@@ -240,8 +284,8 @@
 
 <script>
     let inputFiles = [];
-    let outputDirHandle = null;
     let isPaused = false, isStopped = false, currentIndex = 0;
+    let currentTab = 'format';
 
     // --- Animasi Matematika & Warna Random ---
     function createMathShapes() {
@@ -256,9 +300,7 @@
             shape.style.left = `${Math.random() * 100}%`;
             shape.style.color = colors[Math.floor(Math.random() * colors.length)];
             shape.style.fontSize = `${15 + Math.random() * 20}px`;
-            
             animContainer.appendChild(shape);
-
             setTimeout(() => shape.remove(), 12000);
         }, 800);
     }
@@ -272,6 +314,13 @@
         const icon = document.getElementById('themeIcon');
         body.classList.toggle('dark-mode');
         icon.innerHTML = body.classList.contains('dark-mode') ? moonIcon : sunIcon;
+    }
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.btn-tab').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        addLog(`Switched to tab: ${tab.toUpperCase()}`);
     }
 
     function addLog(msg) {
@@ -288,9 +337,13 @@
         navigator.clipboard.writeText(logs).then(() => alert("Logs copied to clipboard!"));
     }
 
+    // --- Validasi Tombol Star (Kebutuhan: Folder + Angka + Huruf) ---
     function validateStar() {
         const btn = document.getElementById('btnStart');
-        if(inputFiles.length > 0 && (outputDirHandle !== null || window.innerWidth < 768)) {
+        const nVal = document.getElementById('numCount').value;
+        const cVal = document.getElementById('charCount').value;
+        
+        if(inputFiles.length > 0 && nVal !== "" && cVal !== "") {
             btn.disabled = false;
         } else {
             btn.disabled = true;
@@ -301,25 +354,9 @@
         inputFiles = Array.from(event.target.files);
         if(inputFiles.length > 0) {
             document.getElementById('inputPath').innerText = `Folder: ${inputFiles[0].webkitRelativePath.split('/')[0]} (${inputFiles.length} file)`;
-            addLog(`Input: ${inputFiles.length} file siap.`);
+            addLog(`Input: ${inputFiles.length} file detected.`);
             validateStar();
         }
-    }
-
-    async function selectOutputFolder() {
-        if (!window.showDirectoryPicker) {
-            addLog("Mode HP: Gunakan STAR atau ZIP setelah proses selesai.");
-            document.getElementById('outputPath').innerText = "Mode Download (HP)";
-            outputDirHandle = "MOBILE_MODE";
-            validateStar();
-            return;
-        }
-        try {
-            outputDirHandle = await window.showDirectoryPicker();
-            document.getElementById('outputPath').innerText = `Destination: ${outputDirHandle.name}`;
-            addLog("Output: Folder tujuan siap.");
-            validateStar();
-        } catch (e) { addLog("Akses folder ditolak."); }
     }
 
     function generateMixName(numLen, charLen) {
@@ -332,54 +369,28 @@
     }
 
     async function startProcess() {
-        const nVal = document.getElementById('numCount').value, cVal = document.getElementById('charCount').value;
-        if (inputFiles.length === 0) return alert("Pilih Folder!");
-        
         isStopped = false; isPaused = false;
         document.getElementById('btnStart').disabled = true;
         document.getElementById('btnPause').disabled = false;
         document.getElementById('btnStop').disabled = false;
         document.getElementById('btnZipExport').disabled = true;
 
-        addLog("--- PROSES DIMULAI ---");
-
-        for (; currentIndex < inputFiles.length; currentIndex++) {
-            if (isStopped) break;
-            while (isPaused) { await new Promise(r => setTimeout(r, 500)); if (isStopped) break; }
-
-            const file = inputFiles[currentIndex];
-            const ext = file.name.substring(file.name.lastIndexOf('.'));
-            const newName = generateMixName(parseInt(nVal)||0, parseInt(cVal)||0) + ext;
-
-            if (outputDirHandle === "MOBILE_MODE") {
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(file);
-                link.download = newName;
-                link.click();
-                addLog(`Save: ${newName}`);
-                await new Promise(r => setTimeout(r, 800));
-            } else {
-                try {
-                    const newFileHandle = await outputDirHandle.getFileHandle(newName, { create: true });
-                    const writable = await newFileHandle.createWritable();
-                    await writable.write(file);
-                    await writable.close();
-                    addLog(`Save: ${newName}`);
-                } catch (err) { addLog(`Error simpan`); break; }
-            }
-        }
-        addLog("--- PROSES SELESAI ---");
-        document.getElementById('btnZipExport').disabled = false; // Aktif setelah selesai
-        resetButtons();
+        addLog("--- PROCESSING BEGUN ---");
+        // Proses internal (hanya simulasi log karena output via ZIP)
+        addLog("Files are being staged for ZIP output...");
+        setTimeout(() => {
+            addLog("--- PROCESSING COMPLETE ---");
+            document.getElementById('btnZipExport').disabled = false;
+            resetButtons();
+        }, 1500);
     }
 
     async function exportToZip() {
         if (inputFiles.length === 0) return;
         const nVal = document.getElementById('numCount').value, cVal = document.getElementById('charCount').value;
         
-        addLog("Memulai pembuatan ZIP...");
+        addLog("Creating ZIP package...");
         const zip = new JSZip();
-        
         for (let i = 0; i < inputFiles.length; i++) {
             const file = inputFiles[i];
             const ext = file.name.substring(file.name.lastIndexOf('.'));
@@ -390,9 +401,9 @@
         const content = await zip.generateAsync({type:"blob", compression: "STORE"});
         const link = document.createElement('a');
         link.href = URL.createObjectURL(content);
-        link.download = "Flux_Renamed_Files.zip";
+        link.download = "REFORNAM_Package.zip";
         link.click();
-        addLog("ZIP berhasil diunduh.");
+        addLog("ZIP Downloaded successfully.");
     }
 
     function pauseProcess() { 
@@ -402,7 +413,7 @@
 
     function stopProcess() { 
         isStopped = true; 
-        addLog("Proses dihentikan.");
+        addLog("Process Aborted.");
         document.getElementById('btnZipExport').disabled = false;
         resetButtons(); 
     }
